@@ -6,16 +6,28 @@
 		<meta charset="UTF-8">
        
         <link rel="stylesheet" type="text/css" href="sources/css/main.css">
-       
+        <link rel="stylesheet" type="text/css" href="sources/css/animate.css">
+        <link rel="stylesheet" href="sources/css/font-awesome/css/font-awesome.min.css">
         <script src="sources/js/libs/jquery-1.11.0.min.js"></script> 
         
         <script data-main="sources/js/main" src="./sources/js/libs/require.js"></script>
 	
     </head>
 	<body onselectstart="return false">
-		<canvas id="canvas"></canvas>
+		<canvas id="canvas" class="displayNone"></canvas>
 <!-- 		<div id="containerTearsGUI"><span id = 'counterTears'></span> Tears<div class="tear"></div></div>
 		<div id="gameOver">YOU LOOSE RETRY WITH F5</div>
 		<div id="controles">A, W, S, D to move your character<br>Q to change the controlled member <br>E and R for primary and secondary actions<br>SPACE to jump</div> -->
+        <div id="notif" class=''>
+            <div id="container">            
+                <p class="title fa fa-btc">itcut the Rope</p>
+                <p class="explication">Welcome to this little game made by 
+                <br><span class="name">Benjamin Winckell</span><br>
+                 in one little weekEnd Because #YOLO</p>
+                <button id="start" class="infinite animated pulse">Start <u><b>Mining</b></u></button>
+            </div>
+        </div>
+        <div id="menu">
+        </div>
 	</body>
 </html>

@@ -4,18 +4,22 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 	{
 		this.PreSolve = {};
 		this.PreSolve.player = {};
+		this.PreSolve.coin = {};
 		this.PreSolve.pointer = {};
 
 		this.PostSolve = {};
 		this.PostSolve.player = {};
+		this.PostSolve.coin = {};
 		this.PostSolve.pointer = {};
 
 		this.start = {};
 		this.start.player = {};
+		this.start.coin = {};
 		this.start.pointer = {};
 
 		this.end = {};
 		this.end.player = {};
+		this.end.coin = {};
 		this.end.pointer = {};
 
 			//console.log(refObj.players[1]);
@@ -106,7 +110,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 		{
 			var temp;
 			// console.log(params, "YOLOOO")
-			if(params[0].elementType !== 'player' && params[0].elementType !== 'pointer')
+			if(params[0].elementType !== 'player' && params[0].elementType !== 'pointer' && params[0].elementType !== 'coin')
 			{
 				temp = params[0];
 				params[0] = params[1];
@@ -156,7 +160,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 							{
 								// refObj.gestion.box2DWorld.DestroyBody()
 								// console.log(params[1].idRope);
-								console.log("ENDYOLOOOO");
+								// console.log("ENDYOLOOOO");
 								// for (var index in refObj.sceneContainer)
 								// {
 								// // 	if(refObj.sceneContainer[index].characts)
@@ -239,7 +243,14 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 								
 							}
 						};
-		this.PostSolve.player = { 
+		this.PostSolve.player = { coin:function(params){
+									refObj.gestion.eventControler.emit("win");
+								}
+						};
+
+		this.PostSolve.coin = { pic:function(params){									
+									refObj.gestion.eventControler.emit("gameOver");
+								}
 						};
 		this.init();
 	}

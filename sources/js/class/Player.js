@@ -54,7 +54,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
 
         params.density       = 100;
         params.imgSrc        = params.pool[2];
-        params.imgW          = 150;
+        params.imgW          = 100;
         params.imgH          = 100;
         params.friction      = 100;
         params.myName        = 'pointer';

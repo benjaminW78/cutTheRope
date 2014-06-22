@@ -23,6 +23,12 @@ var configBox2D = {b2Vec2 : Box2D.Common.Math.b2Vec2
     				   		   ,   ROPE   : 0x0005
     				        }
 	        }
+            configBox2D.initWorld = function(){
+                console.log('FILSDEPUTERIE')
+                console.log(this.world);
+                this.world =null;
+             this.world = new this.b2World(new this.b2Vec2(0, 10),true)   
+            }
 	        configBox2D.world = new configBox2D.b2World(new configBox2D.b2Vec2(0, 10),true);
 	        return configBox2D;
 });

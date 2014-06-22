@@ -1,59 +1,34 @@
 define(["class/ImgPool","libs/EasyInput","config/box2dConfig","libs/Easy2DCamera","var/level","config/config","controllers/ColisionControler","controllers/EventsController"],function(ImgPool, Input, box2dConfig, Easy2DCamera, level , config,ColisionControler,EventsControler){
 
     var currentLevel = 0;
-    // console.log(level[currentLevel].length-1,level[currentLevel][level[currentLevel].length-1])
-    var Game = {gestion        : {camera:'', box2DWorld:box2dConfig.world, worldScale : 30.0}
-             ,  players        : {1: level[currentLevel][level[currentLevel].length-1]}
-             ,  sceneContainer : level[currentLevel]
-            };
-    Game.gestion.input = new Input(Game);
-    Game.gestion.camera = new Easy2DCamera( window.canvas
-                                          , {"focusOn"         : Game.players[1]
-                                          ,  "pointReferenceX" : config.canvasObject.width/2
-                                          ,  "pointReferenceY" : config.canvasObject.height/2
-                                          ,  "worldX"          : 0
-                                          ,  "worldY"          : 0}
-                                          );
+    var mylevel = level[currentLevel]();
+    var Game = function(){
+      this.gestion=undefined;
+      this.players=undefined;
+      this.sceneContainer=undefined;
 
-    Game.gestion.eventControler = new EventsControler();
-    Game.gestion.colisionControler = new ColisionControler(Game);
-    Game.gestion.box2dConfig = box2dConfig;
-    // Game.gestion.imgPool = new ImgPool(Game);
-        window.addEventListener("mousemove",function(e){
-            if(Game.players[1].click===true){
-              // console.log("mouseMove",Game.players[1])
-              rect = config.canvas.getBoundingClientRect()
-              var mousePos ={x:(e.clientX-rect.left)/(rect.right-rect.left)*config.canvas.width
-                            ,y:(e.clientY-rect.top)/(rect.bottom-rect.top)*config.canvas.height};
-              Game.players[1].updatePointer(mousePos,Game);
-            }
-        })
-        window.addEventListener("mousedown",function(e){
-            if(Game.players[1].click===false){
-               var coord =  Game.players[1].getMouseCoord({x:e.offsetX,y:e.offsetY},Game);
-                Game.players[1].createCuter(coord);
-                Game.players[1].click=true;
-            }
-        })
-        window.addEventListener("mouseup",function(e){
-            if(Game.players[1].click===true ){
-                Game.players[1].destroyCuter(Game);
-                Game.players[1].click=false;
-                box2dConfig.world.DestroyJoint(Game.players[1].mouse_joint);
-                Game.players[1].mouse_joint=undefined;
-            }
-        })
+      this.init = function(){
 
-    Game.gestion.input.addEvent("mousemove", window,Game);
-    Game.gestion.input.addEvent("keydown", window,Game);
-    Game.gestion.input.addEvent("keyup", window,Game);
+        this.gestion        = {camera:'', box2DWorld:box2dConfig.world, worldScale : 30.0};
+        this.gestion.input = new Input(this);
 
+        this.players        = {1: mylevel[mylevel.length-1]};
+        this.sceneContainer = mylevel;
+        this.gestion.camera = new Easy2DCamera( window.canvas, {"focusOn"         : this.players[1]
+                                                              ,  "pointReferenceX" : config.canvasObject.width/2
+                                                              ,  "pointReferenceY" : config.canvasObject.height/2
+                                                              ,  "worldX"          : 0
+                                                              ,  "worldY"          : 0}
+                                              );
+        this.gestion.eventControler = new EventsControler();
+        this.gestion.colisionControler = new ColisionControler(this);
+        this.gestion.box2dConfig = box2dConfig;
+        this.gestion.gameStatus = '';
 
-    Game.gestion.gameStatus = '';
+      }
+      this.init();
+    };
 
-    // console.log(Game.players[1]);
-    // console.log(Game.players.pos);
-
-    return Game;
+    return new Game();
 
 });

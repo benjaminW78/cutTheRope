@@ -57,9 +57,9 @@ define(['config/box2dConfig',"components/addDrawMethode","config/config"],functi
                              imgH        :params.imgH||undefined,
                              isPattern   : params.isPattern ||undefined
                             };
+
             if(this.characts.img!==undefined && this.characts.isPattern){
                 this.characts.pattern = config.context.createPattern(this.characts.img, 'repeat');
-                
             }
             // body settings
             this.bodyDef  =  new box2dConfig.b2BodyDef;

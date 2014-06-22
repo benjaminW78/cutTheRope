@@ -44,7 +44,7 @@ function createBox(params)
     fix_def.shape.SetAsBox( params.width/2 , params.height/2 );
     fix_def.userData = this.characts;
     body_def.position.Set(params.x , params.y);
-    console.log(body_def.position);
+    // console.log(body_def.position);
     body_def.angle = params.angle*(Math.PI/180)|| 0;
 
     var b = box2dConfig.world.CreateBody( body_def );
@@ -55,7 +55,7 @@ function createBox(params)
 }
 var Rope = function(params)
 {
-    console.log(params)
+    // console.log(params)
 
     params.restitution   = 0.0;
     params.myName        = 'test1';
@@ -81,10 +81,20 @@ var Rope = function(params)
     var lastBox2DObj = new createBox(params);
     }
 
+    params.ropeimg = params.ropeimgSrc||undefined;
+
+    params.ropeimgWidth    = params.ropeimgSrc&&params.ropeimgSrc.width||undefined;
+    params.ropeimgHeight   = params.ropeimgSrc&&params.ropeimgSrc.height||undefined;
+
+    params.socleimg = params.socleimgSrc||undefined;
+
+    params.socleimgWidth    = params.socleimgSrc&&params.socleimgSrc.width||undefined;
+    params.socleimgHeight   = params.socleimgSrc&&params.socleimgSrc.height||undefined;
+
     this.characts = params;
     this.ropeObj = [];
     this.ropeObj.push(Firstbox2DOjb);
-    this.ropeJoin=[];
+    this.ropeJoin = [];
 
     var numberCell = params.cell;
 
@@ -134,7 +144,6 @@ for (var x= 0; x <= numberCell; x++) {
                 link=body;
 
             }
- // final body
 
             var revolute_joint = new box2dConfig.b2RevoluteJointDef();
             body = lastBox2DObj;
@@ -154,11 +163,11 @@ for (var x= 0; x <= numberCell; x++) {
             Game.gestion.box2DWorld.DestroyJoint(this.ropeJoin[i]);
         }
         for (var x=1;x<this.ropeObj.length-1;x++){
-            console.log('je tue les mechant body',x)
+
             if(this.ropeObj[x]!==undefined)
                 // Game.gestion.box2DWorld.DestroyBody(this.obj.box2dBody)
                box2dConfig.world.DestroyBody(this.ropeObj[x].GetBody());
-                console.log(this.ropeObj[x].GetBody(),this.ropeObj[x])
+                // console.log(this.ropeObj[x].GetBody(),this.ropeObj[x])
             // this.ropeObj[x]=undefined;
         }
     }
@@ -168,7 +177,7 @@ for (var x= 0; x <= numberCell; x++) {
 
         var camcoord = Game.gestion.camera.getSpaceInfos();
 
-        for (var i=0;i<this.ropeObj.length;i++){
+        for (var i=this.ropeObj.length-1;i>=0;i--){
          
             if(this.ropeObj[i]!==undefined){
                 if(i<this.ropeObj.length-1)
@@ -196,14 +205,27 @@ for (var x= 0; x <= numberCell; x++) {
                     config.context.stroke();
                 }
                 else{
-                    
-                // if(this.characts.box2DW)
-                // {
-                // console.log(this.ropeObj[i],i)
-                    var w = this.ropeObj[i].m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
-                    var h = this.ropeObj[i].m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
-                    config.context.fillRect(( w*0.5) * -1, (h * 0.5) * -1, w, h);
-                // }
+                    if(i===0){
+                        if(this.characts.socleimg!==undefined){
+                            config.context.drawImage(this.characts.socleimg,0,0,this.characts.socleimgWidth,this.characts.socleimgHeight,this.characts.socleimgW*-0.5,this.characts.socleimgH*-0.5,this.characts.socleimgW,this.characts.socleimgH);
+                        }
+                    }
+                    if(this.characts.ropeimgSrc)
+                    {
+
+
+                        var w = this.ropeObj[i].m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
+                        var h = this.ropeObj[i].m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
+                        if(this.characts.ropeimg!==undefined)
+                            config.context.drawImage(this.characts.ropeimg,0,0,this.characts.ropeimgWidth,this.characts.ropeimgHeight,this.characts.ropeimgW*-0.5,this.characts.ropeimgH*-0.5,this.characts.ropeimgW,this.characts.ropeimgH);
+
+                    }
+                    // if(i===this.ropeObj.length-1)
+                    // {
+                    //     var w = this.ropeObj[i].m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
+                    //     var h = this.ropeObj[i].m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
+                    //     config.context.fillRect(( w*0.5) * -1, (h * 0.5) * -1, w, h);
+                    // }
                 }
                 // //dessins du cercle
                 config.context.restore();

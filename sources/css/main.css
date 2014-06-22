@@ -1,9 +1,20 @@
+@font-face
+{
+	font-weight: normal;
+	font-style: normal;
+	font-family: "font-awesome";
+	src: url("font-awesome/fonts/fontawesome-webfont.ttf");
+}
+
 body 
 {
 	background-color : black;
 }
 #canvas{
-	display	: inline-block;
+	background-image: url("../images/decors/canvasMine.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	/*display	: inline-block;*/
 	margin	: 0 auto;
 	width	: 900px;
 	height	: 600px;
@@ -56,4 +67,66 @@ body
 	background-color	: grey;
 	text-align: center;
 	font-weight			: bold;
+}
+
+#notif{
+	font-family     : "font-awesome";
+	background      : #E0C5DD;
+	position        : absolute;
+	left            : 15rem;
+	top             : 1rem;
+	width           : 30rem;
+	text-align      : center;
+	height          : 20rem;
+	padding         : 1rem;
+	border-radius   : 2rem;
+	vertical-align  : middle;
+	background-image: url("../images/decors/wallbitcoin.jpg");
+	background-size :cover; 
+	border          : 1px rgb(252, 126, 126) solid;
+}
+#container{
+	padding: 2rem;
+	border          : 1px rgb(255, 255, 255) solid;
+	border-radius   : 2rem;
+	background-color: rgba(200,200,200,0.9);
+}
+.name{
+	font-weight: bold;
+	text-decoration: underline;
+
+}
+.displayNone{
+	display: none;
+}
+.title{
+	font-size: 2rem;
+	margin   : 0
+}
+.explication{
+	position      : relative;
+	vertical-align: middle;
+	margin-top    : 2rem;
+	font-size     :1.0rem;
+}
+
+#start{
+position             : relative;
+border               : 0px;
+-moz-border-radius   : 7px;
+-webkit-border-radius: 7px;
+border-radius        : 7px;
+margin               : 0rem;
+top                  : 0rem;
+background-image     : url('../images/decors/axebtn.png');
+background-size      : contain;
+width                : 7rem;
+height               : 7rem;
+background-color     : transparent;
+background-repeat    : no-repeat;
+font-weight          : bolder;
+font-size            : 1.2rem;
+color                : white;
+text-align           : center;
+padding-top          : 4.2rem;
 }
