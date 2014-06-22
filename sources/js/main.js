@@ -34,7 +34,7 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
 			Game.gestion.box2DWorld.Step(1/60,10,10);
 			update();
 			Game.gestion.camera.run();
-			Game.gestion.camera.debug(config.context);
+			// Game.gestion.camera.debug(config.context);
 		    // Game.gestion.box2DWorld.DrawDebugData();
 		    
 			garbageCollector(Game);

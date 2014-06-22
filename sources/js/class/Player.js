@@ -1,9 +1,9 @@
 define(["var/game","class/Carre","class/Circle","components/addMoveMethode","components/addMemberAction","components/addCatchMethode","components/addMathSquareMethode","components/addTearsGenerator","components/addJointMethode","class/Tear","config/box2dConfig","components/addUpdate","config/box2dConfig"],function(Game,Carre,Circle,addMoveMethode
        ,addMemberAction,addCatchMethode,addMathSquareMethode,addTearsGenerator,addJointMethode,Tear,box2dConfig,addUpdate,configBox2D){
 
-    var  Player = function(x,y)
+    var  Player = function(x,y,paramsBase)
     {
-        var params = {};
+        var params = paramsBase;
         var tears = 10;
         var up = false;
         var indexmember = 0;
@@ -23,7 +23,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
 
         this.speed = membersCharacts[this.activeMember].speed.val;
 
-        this.jump = {   
+        this.jump = {
                         val : membersCharacts[this.activeMember].jump.val ,
                         state : false
                     }
@@ -32,45 +32,51 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
 
         this.conditions = { inSight  : ""
                           , onGround : ""};
-        
+
         // params.myName = 'hand';
         // params.isStatic = true;
-        params.restitution   = 0.0;                 
-        params.myName        = 'hand';         
-        params.fixedRotation = true;                  
-        params.width         = 2;             
-        params.height        = 1.4;            
-        params.insideColor   = "255,5,0";           
-        params.x             = x;        
-        params.elementType   = "player";            
-        params.y             = y;        
-        params.density       = 1.3;             
-        params.friction      = 1;                
-        params.isStatic      = true;                
-        this.members.hand    = new Carre(params); 
-        // params.y            += 1;          
-        params.density       = 100;               
-        params.friction      = 100;                
-        params.myName        = 'pointer';         
-        params.width         = 0.3;             
-        params.elementType   = "pointer";            
-        params.x             = 8;        
-        params.height        = 0.3;       
-        // this.members.circle =  new Carre(params)
+        params.imgSrc = params.pool[1];
+        params.imgW=150;
+        params.imgH=100;
+        params.restitution   = 0.0;
+        params.myName        = 'hand';
+        params.fixedRotation = true;
+        params.width         = 2;
+        params.height        = 1;
+        params.insideColor   = "255,5,0";
+        params.x             = x;
+        params.elementType   = "player";
+        params.y             = y;
+        params.density       = 1.3;
+        params.friction      = 1;
+        params.isStatic      = true;
+        this.members.hand    = new Carre(params);
+
+        params.density       = 100;
+        params.imgSrc        = params.pool[2];
+        params.imgW          = 150;
+        params.imgH          = 100;
+        params.friction      = 100;
+        params.myName        = 'pointer';
+        params.width         = 0.3;
+        params.elementType   = "pointer";
+        params.x             = 8;
+        params.height        = 0.3;
+        
 
         this.createCuter = function(coord){
             params.x = coord.x;
             params.y = coord.y;
-            this.members.circle =  new Carre(params)            
+            this.members.circle =  new Carre(params)
         }
         this.destroyCuter = function(Game){
             Game.gestion.box2DWorld.DestroyBody(this.members.circle.box2dObj.GetBody());
             this.members.circle = undefined;
         }
-        document.getElementById('counterTears').innerHTML = tears;
-        
+        // document.getElementById('counterTears').innerHTML = tears;
 
-        
+
+
         this.actualMember = this.members[this.activeMember];
 
         this.click = false;
@@ -92,7 +98,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
 
             // console.log("YOLOOOOOOOOO")
                 var def = new box2dConfig.b2MouseJointDef();
-     
+
                 def.bodyA = this.members.hand.box2dObj.GetBody();
                 def.bodyB = this.members.circle.box2dObj.GetBody();
                 def.target = coord;
@@ -101,14 +107,14 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
                 def.maxForce = 10000 * 2;
                 def.dampingRatio = 0;
                 this.mouse_joint = box2dConfig.world.CreateJoint(def);
-            } 
+            }
             else{
                 this.mouse_joint.SetTarget(coord);
             }
-             
+
                 // console.log(this)
             this.members.circle.box2dObj.GetBody().SetAwake(true);
-            // this.click=undefined;  
+            // this.click=undefined;
         }
 
 
@@ -117,7 +123,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
             tears += number;
             document.getElementById('counterTears').innerHTML = tears;
         }
-        
+
         Player.prototype.getTears = function()
         {
             return tears;
@@ -130,9 +136,9 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
         Player.prototype.switchmember = function(Game)
         {
             if(indexmember === arrayOfMembers.length)
-                indexmember = 0;  
+                indexmember = 0;
             var string = arrayOfMembers[indexmember];
-            
+
             for (var index in this.members)
             {
                 if(index === string)
@@ -164,7 +170,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
             exec :function(Game)
             {
                 if(tears>0)
-                {                   
+                {
 
                     var _params = {x:_this.actualMember.box2dObj.GetBody().GetPosition().x,
                                    y:_this.actualMember.box2dObj.GetBody().GetPosition().y-2,
@@ -174,22 +180,22 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
                     var _test = _this.tearsGenerator(_params,Game,_this.actualMember);
 
                     _this.lostAllTears.status = false;
-    
+
                     if(_test){
                         tears = 0;
                         document.getElementById('counterTears').innerHTML = tears;
                     }
                 }
-                else 
+                else
                 {
                     Game.gestion.gameStatus = 'gameOver';
-                }   
+                }
             }
         }
 
         Player.prototype.stick = {
             state : "unstick" ,
-            counter : 0, 
+            counter : 0,
             getStick : function(Game)
             {
                     console.log(this.counter)
@@ -219,11 +225,11 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
     }
 
     addMoveMethode(Player);
-    
+
     addTearsGenerator(Player);
-    
+
     addMathSquareMethode(Player);
-    
+
     addJointMethode(Player);
 
     addMemberAction(Player);

@@ -1,4 +1,4 @@
-define(['config/box2dConfig',"components/addDrawMethode"],function(box2dConfig,addDrawMethode){
+define(['config/box2dConfig',"components/addDrawMethode","config/config"],function(box2dConfig,addDrawMethode,config){
 
     /*****************************************************************************************
     *Fonction de création du des obj carré avec box2d du terrain
@@ -39,18 +39,28 @@ define(['config/box2dConfig',"components/addDrawMethode"],function(box2dConfig,a
     *
     ******************************************************************************************/
     var Carre = function(params){
-           
+            // console.log(params)
             this.color = {"inside"  : "rgb("+params.insideColor+")"   ,
                           "outside" : "rgb("+params.outsideColor+")"} ;
-
+            // console.log(params.imgSrc)
             this.characts = {box2DW      : params.width               ,
                              box2DH      : params.height              ,
                              myName      : params.myName              ,
                              elementType : params.elementType         ,
                              shape       : 'square'                   ,
                              box2DAngle  : params.angle*(Math.PI/180) ,
-                             id          : params.id || -1}           ;
-
+                             id          : params.id || -1,
+                             img         : params.imgSrc||undefined,
+                             imgWidth    :params.imgSrc&&params.imgSrc.width||undefined,
+                             imgHeight   :params.imgSrc&&params.imgSrc.height||undefined,
+                             imgW        :params.imgW||undefined,
+                             imgH        :params.imgH||undefined,
+                             isPattern   : params.isPattern ||undefined
+                            };
+            if(this.characts.img!==undefined && this.characts.isPattern){
+                this.characts.pattern = config.context.createPattern(this.characts.img, 'repeat');
+                
+            }
             // body settings
             this.bodyDef  =  new box2dConfig.b2BodyDef;
             
@@ -64,8 +74,8 @@ define(['config/box2dConfig',"components/addDrawMethode"],function(box2dConfig,a
             }
             else if(params.isStatic && params.elementType === 'player'){
                 this.bodyDef.type  = box2dConfig.b2Body.b2_staticBody;
-                this.fixDef.filter.categoryBits = box2dConfig.FILTERS.MEMBERS;
-                this.fixDef.filter.maskBits     = box2dConfig.FILTERS.GROUND;
+                // this.fixDef.filter.categoryBits = box2dConfig.FILTERS.MEMBERS;
+                // this.fixDef.filter.maskBits     = box2dConfig.FILTERS.GROUND;
 
             }
             else{ 

@@ -37,12 +37,19 @@ Case of failure : return false						____________________________________________
 ******************************************************************************************/
 return Circle = function (params)
 {
+
 		this.color = {"inside" : "rgb("+params.insideColor+")" , "outside" : "rgb("+params.outsideColor+")"};	
+		console.log(params)
 		this.characts = {
 						 shape : 'Circle',
 						 myName : params.myName,
 						 radius : params.radius ,
-						 elementType : params.elementType
+						 elementType : params.elementType,
+						 img : params.imgSrc||undefined,
+						 imgWidth:params.imgSrc&&params.imgSrc.width||undefined,
+						 imgHeight:params.imgSrc&&params.imgSrc.height||undefined,
+						 imgW:params.imgW||undefined,
+						 imgH:params.imgH||undefined
 						};
 		// console.log(this);
 		this.bodyDef            = new box2dConfig.b2BodyDef;
@@ -59,18 +66,18 @@ return Circle = function (params)
 		this.fixDef             = new box2dConfig.b2FixtureDef;
 
 		// Collision filter
-		this.fixDef.filter.categoryBits = box2dConfig.FILTERS.MEMBERS;
-		this.fixDef.filter.maskBits     = box2dConfig.FILTERS.GROUND;
+		// this.fixDef.filter.categoryBits = box2dConfig.FILTERS.GROUND;
+  //       this.fixDef.filter.maskBits = box2dConfig.FILTERS.MEMBERS;
 
 		// set des user datas
 		this.fixDef.userData    = this.characts;
 		// console.log(this.fixDef.userData)
-		this.fixDef.density		= params.density 	 || 1.0;
+		this.fixDef.density		= params.density 	 || 10.0;
 		// this.fixDef.filter.categoryBits  = permet de definir a quelle categoryy appartient cette objet : 0x0001 (attention sur 4 octets pas plus !)
 		// this.fixDef.filter.maskBits  =   definit avec quelle groupe on va interagir : group1 | group2 etc
- 		this.fixDef.friction	= params.friction 	 || 0.5;
+ 		this.fixDef.friction	= params.friction 	 || 0.2;
 		this.fixDef.restitution	= params.restitution || 0.2;
-		this.fixDef.shape       = new box2dConfig.b2CircleShape(params.rayon);
+		this.fixDef.shape       = new box2dConfig.b2CircleShape(params.radius);
 
 		this.fixDef.isSensor	=false;
 		// console.log(this.fixDef);
