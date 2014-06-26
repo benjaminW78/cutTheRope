@@ -20,7 +20,6 @@ define(['config/box2dConfig','config/config'],function(box2dConfig,config){
                 // Game.gestion.eventControler.emit("imgLoaded",count);
             }
 
-            // console.log(img)
             this.images.push(img);
         }
     }

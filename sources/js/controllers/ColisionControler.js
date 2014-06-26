@@ -22,7 +22,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 		this.end.coin = {};
 		this.end.pointer = {};
 
-			//console.log(refObj.players[1]);
+
 
 		this.init = function()
 		{	
@@ -33,18 +33,18 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 			{
 				var userObj1 = contact.GetFixtureA().m_userData;
 				var userObj2 = contact.GetFixtureB().m_userData;
-				// console.log(userObj1,userObj1);
-				// console.log(contact)
+
+
 				refObj.gestion.eventControler.emit('PreCollision' , [userObj1,userObj2])
 				
 			} 
 			
 			worldListenner.BeginContact = function(contact)
 			{
-				// console.log(contact.GetFixtureA(),contact.GetFixtureB());
+
 				var userObj1 = contact.GetFixtureA().m_userData
 				var userObj2 = contact.GetFixtureB().m_userData
-				// console.log(contact.GetFixtureA())
+
 				userObj1.box2dBody = contact.GetFixtureA().m_body;
 				userObj2.box2dBody = contact.GetFixtureB().m_body;
 
@@ -52,7 +52,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 			}
 			worldListenner.EndContact = function(contact)
 			{
-				// console.log(contact.GetFixtureA().m_userData,contact.GetFixtureB().m_userData);
+
 				var userObj1 = contact.GetFixtureA().m_userData
 				var userObj2 = contact.GetFixtureB().m_userData
 
@@ -60,7 +60,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 			}
 			worldListenner.PostSolve = function(contact)
 			{
-				// console.log(contact.GetFixtureA().m_userData,contact.GetFixtureB().m_userData);
+
 				var userObj1 = contact.GetFixtureA().m_userData
 				var userObj2 = contact.GetFixtureB().m_userData
 
@@ -72,7 +72,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 			/*methode evenementielle perso appeler par les listenner box2d*/
 			refObj.gestion.eventControler.add('PreCollision',function(contact){
 
-				// console.log(refObj.gestion.colisionControler,contact)
+
 					doSort(contact);
 				if(refObj.gestion.colisionControler.PreSolve[contact[0].elementType] && refObj.gestion.colisionControler.PreSolve[contact[0].elementType][contact[1].elementType])
 					refObj.gestion.colisionControler.PreSolve[contact[0].elementType][contact[1].elementType](contact);
@@ -80,10 +80,10 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 			});
 			
 			refObj.gestion.eventControler.add('StartCollision',function(contact){
-					// console.log(contact[1].myName);
+
 
 					doSort(contact);
-					// console.log(contact[1].myName);
+
 				if(refObj.gestion.colisionControler.start[contact[0].elementType] && refObj.gestion.colisionControler.start[contact[0].elementType][contact[1].elementType])
 					refObj.gestion.colisionControler.start[contact[0].elementType][contact[1].elementType](contact);
 
@@ -109,14 +109,14 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 		var doSort = function(params)
 		{
 			var temp;
-			// console.log(params, "YOLOOO")
+
 			if(params[0].elementType !== 'player' && params[0].elementType !== 'pointer' && params[0].elementType !== 'coin')
 			{
 				temp = params[0];
 				params[0] = params[1];
 				params[1] = temp;	
 			}
-			// console.log(params);
+
 			return params;
 		}
 		this.PreSolve.player = {
@@ -136,18 +136,18 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 
 		this.PostSolve.pointer = {rope : function(params)
 							{
-								// console.log("POST YOLOOOO");
+
 
 								// refObj.gestion.box2DWorld.DestroyBody()
-								// console.log(params[1].idRope);
+
 								for (var index in refObj.sceneContainer)
 								{
 									if(refObj.sceneContainer[index].characts)
-									// 	console.log(params[1].id,refObj.sceneContainer[index].characts.id)
+
 									// debugger;
 									if (refObj.sceneContainer[index].characts && params[1].id === refObj.sceneContainer[index].characts.id )
 									{	
-										// console.log("collision",params[0].elementType,params[0].myName,params[1].elementType,params[1].myName);
+
 								       	// if(!refObj.sceneContainer[index].getDead())
 								        	refObj.sceneContainer[index].destroy(refObj);
 									}
@@ -159,12 +159,12 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 		this.end.pointer = {rope : function(params)
 							{
 								// refObj.gestion.box2DWorld.DestroyBody()
-								// console.log(params[1].idRope);
-								// console.log("ENDYOLOOOO");
+
+
 								// for (var index in refObj.sceneContainer)
 								// {
 								// // 	if(refObj.sceneContainer[index].characts)
-								// // console.log(refObj.sceneContainer[index],params[1].id,refObj.sceneContainer[index].characts.id)
+
 								// // debugger;
 								// 	if (refObj.sceneContainer[index].characts && params[1].id === refObj.sceneContainer[index].characts.id )
 								// 	{	
@@ -178,7 +178,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 		this.start.player = { 	
 								wall : function(params)
 								{
-									console.log(params);
+
 									
 									// refObj.players[1].stick.state = "stick";
 									// // refObj.players[1].stick.getStick(refObj,params);
@@ -187,7 +187,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 								trigger : function(params)
 								{
 									refObj.players[1].jump.state = false;
-									// console.log('loul trigger && '+ params[0].myName+" of "+params[0].elementType);
+
 								},
 								ground : function(params)
 								{
@@ -197,7 +197,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 								},
 								door : function(params)
 								{
-									// console.log('loul collectible && '+ params[0].myName+" of "+params[0].elementType);
+
 								},
 								pic : function(params)
 								{
@@ -218,7 +218,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 								player : function(params)
 								{
 									refObj.players[1].memberContact.beCatch = params[1].box2dBody;
-									// console.log(params[1]);
+
 								}
 
 
@@ -228,7 +228,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 							trigger : function(params)
 							{
 								refObj.players[1].jump.state = false;
-								// console.log('loul trigger && '+ params[0].myName+" of "+params[0].elementType);
+
 							},
 							ground : function(params)
 							{
@@ -237,7 +237,7 @@ define(["components/addEventMethodes","config/box2dConfig","class/Tear"],functio
 							wall : function(params)
 							{
 
-								// console.log("YOLOOOOO");
+
 								// refObj.players[1].stick.getUnStick(refObj);
 								// refObj.players[1].stick.state = "unstick";
 								

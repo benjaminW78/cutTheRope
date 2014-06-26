@@ -44,18 +44,16 @@ function createBox(params)
     fix_def.shape.SetAsBox( params.width/2 , params.height/2 );
     fix_def.userData = this.characts;
     body_def.position.Set(params.x , params.y);
-    // console.log(body_def.position);
+
     body_def.angle = params.angle*(Math.PI/180)|| 0;
 
     var b = box2dConfig.world.CreateBody( body_def );
     var f = b.CreateFixture(fix_def);
-    // console.log(f)
 
     return f;
 }
 var Rope = function(params)
 {
-    // console.log(params)
 
     params.restitution   = 0.0;
     params.myName        = 'test1';
@@ -73,12 +71,12 @@ var Rope = function(params)
     params.isStatic      = params.secondStatic;
     params.y             = params.y2;
     params.x             = params.x2;
+
     if(params.obj2!==undefined){
         var lastBox2DObj = params.obj2.box2dObj;
     }
     else{
-
-    var lastBox2DObj = new createBox(params);
+        var lastBox2DObj = new createBox(params);
     }
 
     params.ropeimg = params.ropeimgSrc||undefined;
@@ -104,19 +102,20 @@ for (var x= 0; x <= numberCell; x++) {
                 // rope segment
                 //
                 var revolute_joint = new box2dConfig.b2RevoluteJointDef();
+
                 params.myName = 'ropeSegments';
                 params.elementType   = "rope";
                 params.isStatic = false;
                 bodyDef = new box2dConfig.b2BodyDef;
-                // console.log(params.idRope,x);
+
                 bodyDef.position.x = params.x2;
                 bodyDef.angle                 = params.angle*(Math.PI/180)|| 0;
                 bodyDef.position.y = params.y2;
                 bodyDef.type  = box2dConfig.b2Body.b2_dynamicBody;
                 boxDef = new box2dConfig.b2FixtureDef;
-                boxDef.density = 100;
+                boxDef.density = 1;
                 boxDef.friction = 0;
-                // console.log(bodyDef)
+                
                 params.destroyFunction=this.destroy;
                 // debugger
                 bodyDef.userData = params;
@@ -125,18 +124,17 @@ for (var x= 0; x <= numberCell; x++) {
                 boxDef.filter.maskBits = box2dConfig.FILTERS.MEMBERS;
 
                 boxDef.shape=new box2dConfig.b2PolygonShape;
-                boxDef.shape.SetAsBox(0.1, 0.5);
+                boxDef.shape.SetAsBox(0.2, 0.3);
                 boxDef.restitution=0.2;
                 body=box2dConfig.world.CreateBody(bodyDef);
                 // body.CreateFixture(boxDef);
                 this.ropeObj.push(body.CreateFixture(boxDef));
-                // console.log(bodyDef,body)
+
                 // joint
                 revolute_joint.bodyA = link;
                 revolute_joint.bodyB = body;
                 revolute_joint.localAnchorA = new box2dConfig.b2Vec2(0, 1);
                 revolute_joint.localAnchorB = new box2dConfig.b2Vec2(0, 0);
-                // console.log(link)
 
                 this.ropeJoin.push(box2dConfig.world.CreateJoint(revolute_joint));
 
@@ -152,9 +150,9 @@ for (var x= 0; x <= numberCell; x++) {
             revolute_joint.bodyB = body.GetBody();
             revolute_joint.localAnchorA = new box2dConfig.b2Vec2(0, 1);
             revolute_joint.localAnchorB = new box2dConfig.b2Vec2(0, 0);
-            // revolute_joint.Initialize(link, body.GetBody(), new box2dConfig.b2Vec2(0, 0));
+          
             this.ropeJoin.push(box2dConfig.world.CreateJoint(revolute_joint));
-            // box2dConfig.world.CreateJoint(revolute_joint);
+          
 
     Rope.prototype.destroy = function (Game,idJoin)
     {
@@ -165,9 +163,10 @@ for (var x= 0; x <= numberCell; x++) {
         for (var x=1;x<this.ropeObj.length-1;x++){
 
             if(this.ropeObj[x]!==undefined)
-                // Game.gestion.box2DWorld.DestroyBody(this.obj.box2dBody)
-               box2dConfig.world.DestroyBody(this.ropeObj[x].GetBody());
-                // console.log(this.ropeObj[x].GetBody(),this.ropeObj[x])
+            {
+                this.ropeObj[x].GetBody().GetWorld().DestroyBody(this.ropeObj[x].GetBody());
+                Game.gestion.box2DWorld.DestroyBody(this.ropeObj[x].GetBody());
+            }
             // this.ropeObj[x]=undefined;
         }
     }
@@ -178,7 +177,7 @@ for (var x= 0; x <= numberCell; x++) {
         var camcoord = Game.gestion.camera.getSpaceInfos();
 
         for (var i=this.ropeObj.length-1;i>=0;i--){
-         
+
             if(this.ropeObj[i]!==undefined){
                 if(i<this.ropeObj.length-1)
                     config.context.fillStyle = "#ff00ff";
@@ -187,7 +186,7 @@ for (var x= 0; x <= numberCell; x++) {
                 var y = this.ropeObj[i].GetBody().GetPosition().y * Game.gestion.worldScale;
 
                 var angle = this.ropeObj[i].GetBody().GetAngle();
-                // console.log(x,y)
+                
                 config.context.beginPath();
                 // mise en place de l'angle
                 config.context.save();
@@ -195,39 +194,22 @@ for (var x= 0; x <= numberCell; x++) {
                 config.context.translate(( x - camcoord.worldX ) , (y - camcoord.worldY) );
                 //rotate du canvas par L'angle de l'objet unity
                 config.context.rotate(angle);
-                    // debugger
-                //dessins du rectangle
-                if(i===this.ropeObj.length-1)
-                {
-                    // this.characts.radius = this.ropeObj[i].m_shape.m_radius * Game.gestion.worldScale;
-                    config.context.arc(0, 0, this.characts.radius * Game.gestion.worldScale, 0, Math.PI * 2, 1);
-                    config.context.fill();
-                    config.context.stroke();
-                }
-                else{
-                    if(i===0){
+
+                    if(i===0 || i===this.ropeObj.length-1&& this.ropeObj[i].m_userData.shape!=="Circle"){
                         if(this.characts.socleimg!==undefined){
                             config.context.drawImage(this.characts.socleimg,0,0,this.characts.socleimgWidth,this.characts.socleimgHeight,this.characts.socleimgW*-0.5,this.characts.socleimgH*-0.5,this.characts.socleimgW,this.characts.socleimgH);
                         }
                     }
-                    if(this.characts.ropeimgSrc)
+                    if(this.characts.ropeimgSrc && i !==0 && i !==this.ropeObj.length-1 && this.ropeObj[i].m_userData.shape!=="Circle")
                     {
-
-
                         var w = this.ropeObj[i].m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
                         var h = this.ropeObj[i].m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
+
                         if(this.characts.ropeimg!==undefined)
-                            config.context.drawImage(this.characts.ropeimg,0,0,this.characts.ropeimgWidth,this.characts.ropeimgHeight,this.characts.ropeimgW*-0.5,this.characts.ropeimgH*-0.5,this.characts.ropeimgW,this.characts.ropeimgH);
+                            config.context.drawImage(this.characts.ropeimg,0,0,this.characts.ropeimgWidth,this.characts.ropeimgHeight,this.characts.ropeimgW*-0.5,this.characts.ropeimgH*-0.5,w,h*2);
 
                     }
-                    // if(i===this.ropeObj.length-1)
-                    // {
-                    //     var w = this.ropeObj[i].m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
-                    //     var h = this.ropeObj[i].m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
-                    //     config.context.fillRect(( w*0.5) * -1, (h * 0.5) * -1, w, h);
-                    // }
-                }
-                // //dessins du cercle
+
                 config.context.restore();
                 config.context.closePath();
             }

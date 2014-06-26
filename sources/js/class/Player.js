@@ -13,10 +13,6 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
                                 eye  : {jump : {val : 15}, speed : {val : 5}, actions  : {action1 : "", action2 : ""}}
                               };
 
-        // this.memberContact = {sight : false , ground : false}; \\ WIP use Ray _thisRay propertie in this.condition
-
-        // this.keys = {down : false , up : false , left : false , right : false}; \\ WIP useless because addMoveMethode already add them
-
         this.posRelative = {};
 
         this.activeMember = 'hand';
@@ -33,15 +29,13 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
         this.conditions = { inSight  : ""
                           , onGround : ""};
 
-        // params.myName = 'hand';
-        // params.isStatic = true;
         params.imgSrc = params.pool[1];
-        params.imgW=150;
+        params.imgW=100;
         params.imgH=100;
         params.restitution   = 0.0;
         params.myName        = 'hand';
         params.fixedRotation = true;
-        params.width         = 2;
+        params.width         = 1.5;
         params.height        = 1;
         params.insideColor   = "255,5,0";
         params.x             = x;
@@ -52,30 +46,29 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
         params.isStatic      = true;
         this.members.hand    = new Carre(params);
 
-        params.density       = 100;
+        params.density       = 1;
         params.imgSrc        = params.pool[2];
         params.imgW          = 100;
         params.imgH          = 100;
         params.friction      = 100;
         params.myName        = 'pointer';
-        params.width         = 0.3;
+        params.width         = 0.5;
         params.elementType   = "pointer";
         params.x             = 8;
-        params.height        = 0.3;
+        params.height        = 1;
+        // params.angle         = 45;
         
 
-        this.createCuter = function(coord){
+        this.createCuter = function(coord,Game){
             params.x = coord.x;
             params.y = coord.y;
-            this.members.circle =  new Carre(params)
+            this.members.circle =  new Carre(params);
+            this.updatePointer(coord,Game)
         }
         this.destroyCuter = function(Game){
             Game.gestion.box2DWorld.DestroyBody(this.members.circle.box2dObj.GetBody());
             this.members.circle = undefined;
         }
-        // document.getElementById('counterTears').innerHTML = tears;
-
-
 
         this.actualMember = this.members[this.activeMember];
 
@@ -89,32 +82,28 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
             return coord;
         }
         Player.prototype.updatePointer = function(mouseCoord,Game){
-                // console.log(this.mouse_joint);
-               var coord =  this.getMouseCoord(mouseCoord,Game);
-               // console.log(coord)
+
+               var coord =  mouseCoord;
+
             if(this.mouse_joint===undefined){
 
-
-
-            // console.log("YOLOOOOOOOOO")
                 var def = new box2dConfig.b2MouseJointDef();
 
                 def.bodyA = this.members.hand.box2dObj.GetBody();
                 def.bodyB = this.members.circle.box2dObj.GetBody();
                 def.target = coord;
-                // console.log(this.members.circle.box2dObj.GetBody())
+
                 def.collideConnected = true;
                 def.maxForce = 10000 * 2;
                 def.dampingRatio = 0;
                 this.mouse_joint = box2dConfig.world.CreateJoint(def);
             }
             else{
+
                 this.mouse_joint.SetTarget(coord);
             }
 
-                // console.log(this)
             this.members.circle.box2dObj.GetBody().SetAwake(true);
-            // this.click=undefined;
         }
 
 
@@ -146,7 +135,6 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
                     if(index === 'eye' && membersCharacts.hand.capacity.catching === 1 && this.conditions.inSight.encounter.m_userData.myName === "eye")
                     {
                         this.getMembersCharacts().hand.capacity.catching = 0;
-                        // configBox2D.world.DestroyJoint(configBox2D.world.GetJointList());
                     }
 
                     this.actualMember.box2dObj.GetBody().SetLinearVelocity(new Game.gestion.box2dConfig.b2Vec2(0,0));
@@ -159,7 +147,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
                     console.log("non ce membre n'existe pas");
             }
             indexmember+=1;
-            console.log(this.actualMember); //.fixDef.userData
+            console.log(this.actualMember);
         }
 
 
@@ -201,7 +189,6 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
                     console.log(this.counter)
                 if(this.counter === 0)
                 {
-                    // console.log(_this.actualMember.box2dObj.GetBody());
                     _this.actualMember.box2dObj.GetBody().SetLinearVelocity(new Game.gestion.box2dConfig.b2Vec2(0,0));
                     _this.actualMember.box2dObj.GetBody().ApplyForce(new Game.gestion.box2dConfig.b2Vec2(0,Game.gestion.box2DWorld.GetGravity().y*-1 * _this.actualMember.box2dObj.GetBody().GetMass()),_this.actualMember.box2dObj.GetBody().GetWorldCenter());
                     this.counter=-1;
@@ -226,15 +213,15 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
 
     addMoveMethode(Player);
 
-    addTearsGenerator(Player);
+    // addTearsGenerator(Player);
 
     addMathSquareMethode(Player);
 
     addJointMethode(Player);
 
-    addMemberAction(Player);
+    // addMemberAction(Player);
 
-    addCatchMethode(Player);
+    // addCatchMethode(Player);
 
     addUpdate(Player);
 

@@ -39,7 +39,7 @@ return Circle = function (params)
 {
 
 		this.color = {"inside" : "rgb("+params.insideColor+")" , "outside" : "rgb("+params.outsideColor+")"};	
-		console.log(params)
+
 		this.characts = {
 						 shape : 'Circle',
 						 myName : params.myName,
@@ -51,7 +51,7 @@ return Circle = function (params)
 						 imgW:params.imgW||undefined,
 						 imgH:params.imgH||undefined
 						};
-		// console.log(this);
+
 		this.bodyDef            = new box2dConfig.b2BodyDef;
 		
 		if(params.isStatic)
@@ -71,7 +71,7 @@ return Circle = function (params)
 
 		// set des user datas
 		this.fixDef.userData    = this.characts;
-		// console.log(this.fixDef.userData)
+
 		this.fixDef.density		= params.density 	 || 10.0;
 		// this.fixDef.filter.categoryBits  = permet de definir a quelle categoryy appartient cette objet : 0x0001 (attention sur 4 octets pas plus !)
 		// this.fixDef.filter.maskBits  =   definit avec quelle groupe on va interagir : group1 | group2 etc
@@ -80,7 +80,6 @@ return Circle = function (params)
 		this.fixDef.shape       = new box2dConfig.b2CircleShape(params.radius);
 
 		this.fixDef.isSensor	=false;
-		// console.log(this.fixDef);
 
         // this.box2dObj = box2dConfig.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
 

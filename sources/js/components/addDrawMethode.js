@@ -30,8 +30,6 @@ define(["config/config"],function(config){
 					config.context.translate((this.characts.x - camcoord.worldX ) , (this.characts.y - camcoord.worldY) );
 					//rotate du canvas par L'angle de l'objet unity
 					config.context.rotate(this.characts.angle);
-					
-			 		//dessins du rectangle
 			 		if(this.characts.pattern!==undefined){
 			 			this.characts.w = this.box2dObj.m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
 			 			this.characts.h = this.box2dObj.m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
@@ -39,12 +37,23 @@ define(["config/config"],function(config){
 			 			config.context.fillStyle=this.characts.pattern;
 			 			config.context.fill();
 			 		}
-		 			else if(this.characts.box2DW && this.characts.img!==undefined){
+		 			else if(this.characts.elementType==="pointer"&&this.characts.box2DW && this.characts.img!==undefined){
 		 				// console.log(this.characts)
+		 				var w = this.box2dObj.m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
+			 			var h = this.box2dObj.m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
 		 				if(this.characts.img!==undefined)
-                        config.context.drawImage(this.characts.img,0,0,this.characts.imgWidth,this.characts.imgHeight,this.characts.imgW*-0.5,this.characts.imgH*-0.5,this.characts.imgW,this.characts.imgH);
+                        	config.context.drawImage(this.characts.img,0,0,this.characts.imgWidth,this.characts.imgHeight,w*-0.5,h*-0.5,w*1.5,h*1.5);
 
 		 			}
+		 			else if(this.characts.box2DW && this.characts.img!==undefined){
+		 				// console.log(this.characts)
+		 				var w = this.box2dObj.m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;
+			 			var h = this.box2dObj.m_shape.m_vertices[2].y * Game.gestion.worldScale * 2;
+		 				if(this.characts.img!==undefined)
+                        	config.context.drawImage(this.characts.img,0,0,this.characts.imgWidth,this.characts.imgHeight,w*-0.5,h*-0.5,w*1.2,h*1.5);
+
+		 			}
+			 		//dessins du rectangle
 			 		else if(this.characts.box2DW)
 			 		{
 			 			this.characts.w = this.box2dObj.m_shape.m_vertices[2].x * Game.gestion.worldScale * 2;

@@ -39,10 +39,10 @@ define(['config/box2dConfig',"components/addDrawMethode","config/config"],functi
     *
     ******************************************************************************************/
     var Carre = function(params){
-            // console.log(params)
+
             this.color = {"inside"  : "rgb("+params.insideColor+")"   ,
                           "outside" : "rgb("+params.outsideColor+")"} ;
-            // console.log(params.imgSrc)
+
             this.characts = {box2DW      : params.width               ,
                              box2DH      : params.height              ,
                              myName      : params.myName              ,
@@ -51,10 +51,10 @@ define(['config/box2dConfig',"components/addDrawMethode","config/config"],functi
                              box2DAngle  : params.angle*(Math.PI/180) ,
                              id          : params.id || -1,
                              img         : params.imgSrc||undefined,
-                             imgWidth    :params.imgSrc&&params.imgSrc.width||undefined,
-                             imgHeight   :params.imgSrc&&params.imgSrc.height||undefined,
-                             imgW        :params.imgW||undefined,
-                             imgH        :params.imgH||undefined,
+                             imgWidth    : params.imgSrc&&params.imgSrc.width||undefined,
+                             imgHeight   : params.imgSrc&&params.imgSrc.height||undefined,
+                             imgW        : params.imgW||undefined,
+                             imgH        : params.imgH||undefined,
                              isPattern   : params.isPattern ||undefined
                             };
 

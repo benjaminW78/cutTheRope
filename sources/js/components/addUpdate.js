@@ -2,10 +2,6 @@ define(['config/box2dConfig','var/game','class/Ray'],function(box2dConfig,Game,R
 
     return function addUpdate(myClass)
     {               
-        /* Check who's the caller */
-        // if(myClass.activeMember)
-        // {
-            // console.log("Dans addUpdate");
 
             myClass.prototype.update = function(Game)
             {
@@ -32,17 +28,6 @@ define(['config/box2dConfig','var/game','class/Ray'],function(box2dConfig,Game,R
                 if(this.lostAllTears.status)
                     this.lostAllTears.exec(Game,this);
             
-                    // if(this.stick.state)
-                 //    {
-                 //     console.log("LOUUUUUUUUUUUUUL",this.stick.state)    
-                 //     this.stick.getStick(Game,this);
-                 //    }
-                    // else if(!this.stick.state && this.stick.state !== undefined)
-                    //  this.stick.getUnStick(Game,this);
-                    //  
-                // this.rayToWorld(300, 0);
-            
-                // if(this.rayToObject(300, 0) === true) console.log("Collision");
                 
                 if (this.conditions)
                 {
@@ -57,7 +42,7 @@ define(['config/box2dConfig','var/game','class/Ray'],function(box2dConfig,Game,R
                         feet  = this.actualMember.fixDef.userData.box2DH + this.actualMember.box2dObj.GetBody().GetPosition().y;
                     }
 
-                    // console.log(Game.players[1]);
+            
                     this.conditions.inSight = new Ray( this.actualMember.box2dObj.GetBody().GetPosition().x
                                                      , this.actualMember.box2dObj.GetBody().GetPosition().y
                                                      , this.getDirection(range)

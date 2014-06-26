@@ -3,32 +3,42 @@
 require(["var/game","class/Player","components/requestanimFrame","config/config","config/box2dConfig","controllers/GarbageCollector"] , function(game,Player,requestAnimFrame,config,box2dConfig,garbageCollector) {
 	
 	notif = document.getElementById('notif');
-	btnStart = document.getElementById("start");
-	var pause = false;
+    btnStart = document.getElementById("start");
+    btnNextLevel = document.getElementById("continue");
+    btnRestart = document.getElementById("restart");
+	txtExplication = document.getElementsByClassName("explication");
+	
+    var pause = false;
 	var Game = game;
-	// console.log(Game)
+
+    if(localStorage.currentLevel===undefined)
+        localStorage.currentLevel=0;
 
         window.addEventListener("mousemove",function(e){
             if(Game.players[1].click===true){
-              rect = config.canvas.getBoundingClientRect();
-              var mousePos ={x:(e.clientX-rect.left)/(rect.right-rect.left)*config.canvas.width
-                            ,y:(e.clientY-rect.top)/(rect.bottom-rect.top)*config.canvas.height};
-              Game.players[1].updatePointer(mousePos,Game);
+                rect = config.canvas.getBoundingClientRect();
+                var mousePos =  Game.players[1].getMouseCoord({x:e.offsetX,y:e.offsetY},Game);
+                Game.players[1].updatePointer(mousePos,Game);
             }
         })
         window.addEventListener("mousedown",function(e){
+            e.preventDefault();
             if(Game.players[1].click===false){
                var coord =  Game.players[1].getMouseCoord({x:e.offsetX,y:e.offsetY},Game);
-                Game.players[1].createCuter(coord);
+                Game.players[1].createCuter(coord,Game);
                 Game.players[1].click=true;
+                config.canvas.style.cursor = 'none';
             }
         })
         window.addEventListener("mouseup",function(e){
-            if(Game.players[1].click===true ){
+            e.preventDefault();
+
+            if(Game.players[1].click === true ){
                 Game.players[1].destroyCuter(Game);
-                Game.players[1].click=false;
+                Game.players[1].click = false;
                 box2dConfig.world.DestroyJoint(Game.players[1].mouse_joint);
-                Game.players[1].mouse_joint=undefined;
+                Game.players[1].mouse_joint = undefined;
+                config.canvas.style.cursor = "default";
             }
         })
 
@@ -37,16 +47,33 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
     Game.gestion.input.addEvent("keyup", window,Game);
 
 	function disappear(){
-		notif.classList.add("displayNone"); 
-		notif.classList.remove(" animated bounceOut");
-	}
-	
-	notif.addEventListener('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', disappear);
+        if(notif.classList.contains("bounceOut"))
+        {
+            notif.classList.add("displayNone"); 
+            notif.classList.remove("animated"); 
+            notif.classList.remove("bounceOut");
+        }
+        else if (notif.classList.contains("bounceIn"))
+        {
+            notif.classList.remove("displayNone"); 
+            notif.classList.remove("animated");
+            notif.classList.remove("bounceIn");
+        }
+
+    }
+    
+	notif.addEventListener('webkitAnimationEnd', disappear);
 	btnStart.addEventListener('click', function(){Game.gestion.eventControler.emit("start")});
-	config.canvas.addEventListener('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', removeAnimations);
+	config.canvas.addEventListener('webkitAnimationEnd', removeAnimations);
 	
 	function removeAnimations(){
-		console.log('je remove batar')
+        notif.classList.add("displayNone"); 
+        notif.classList.remove("animated");
+
+        if(notif.classList.contains("shake"))
+            notif.classList.remove("shake");
+        if(notif.classList.contains("swing"))
+            notif.classList.remove("swing");
 	}
 	
 	Game.gestion.eventControler.add("start", function(){
@@ -55,25 +82,49 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
 		notif.classList.add("bounceOut");
 		config.canvas.classList.remove("displayNone");
 	});
-var toto=0;
+
+    function reloadPage(){
+           window.location.reload(); 
+    }
+
 	Game.gestion.eventControler.add("win", function(){
-		pause = false;
-		notif.className -= "displayNone"; 
-		notif.className +=" animated bounceIn"
-		config.canvas.classList.add("animated");
-		config.canvas.classList.add("shake");
-		if (toto===0) {
-		toto+=1	
-		Game.gestion.box2dConfig.initWorld();
-		};
-	});
+        document.getElementsByClassName("explication")[0].innerHTML="<b>YOU WIN</b> <br/> You completed Level: "+(JSON.parse(localStorage.currentLevel)+1);
+        
+        if(localStorage.currentLevel!==undefined && typeof JSON.parse(localStorage.currentLevel) ==="number")
+        {
+            console.log(localStorage);
+            localStorage.currentLevel=JSON.parse(localStorage.currentLevel)+1;
+            console.log(localStorage);
+        }   
+        else
+        {
+            localStorage.currentLevel=1;
+        } 
+        pause = false;
+        notif.className -= "displayNone"; 
+        notif.className +=" animated bounceIn"
+        
+        config.canvas.classList.add("animated");
+        config.canvas.classList.add("shake");
+        
+        
+        btnStart.classList.add("displayNone");
+        btnNextLevel.classList.remove("displayNone");
+        btnNextLevel.addEventListener("click",reloadPage);
+	   
+    });
 
 	Game.gestion.eventControler.add("gameOver", function(){
 		pause = false;
 		notif.className -= "displayNone"; 
-		notif.className +=" animated bounceIn"
-		config.canvas.classList.add("animated");
-		config.canvas.classList.add("swing");
+		notif.className +=" animated bounceIn";
+        config.canvas.classList.add("animated");
+        config.canvas.classList.add("swing");
+        document.getElementsByClassName("explication")[0].innerHTML="<b>GAME OVER</b> <br/> You loose at Level : "+(JSON.parse(localStorage.currentLevel)+1);
+        btnRestart.classList.remove("displayNone");
+        btnStart.classList.add("displayNone");
+        btnRestart.addEventListener("click",reloadPage);
+
 	});
 
 	function cleanCanvas()

@@ -10,14 +10,8 @@ define(["config/box2dConfig"],function(configBox2D){
 
             var state = this.getMembersCharacts().hand.capacity.catching;
             // debugger;
-            // console.log(state); // this.memberContact.beCatch
             var catcher = this.members.hand["box2dBody"]; // this.members.hand;
-            debugger;
-            // console.log(catcher);
-            console.log(this.conditions.inSight.encounter);
-            // this.memberContact.bool = true;
-            // if(this.memberContact.bool)
-            // {
+           
                 switch(state) /* Check if the hand already catch something */
                 {
                     case 0 :
@@ -38,7 +32,6 @@ define(["config/box2dConfig"],function(configBox2D){
                         throw "Unexpected value of 'state' propertie in: " + this;
                     break;
                 }
-            // }
         }
     }
 });

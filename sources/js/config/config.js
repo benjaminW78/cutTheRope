@@ -9,8 +9,8 @@ var config = {
 	config.canvas.width  = config.canvasObject.width;
 	config.canvas.height = config.canvasObject.height;
 	config.imagesSrc = [{w:199,h:198,src:"sources/images/decors/coin.png"},
-                        {w:156,h:81,src:"sources/images/decors/pig.png"},
-                        {w:411,h:399,src:"sources/images/decors/axe.png"},
+                        {w:256,h:256,src:"sources/images/decors/player.png"},
+                        {w:411,h:399,src:"sources/images/decors/cutter.png"},
                         {w:452,h:369,src:"sources/images/decors/grass.png"},
                         {w:50,h:45,src:"sources/images/decors/rope1.png"},
                         {w:141,h:117,src:"sources/images/decors/rock.png"}

@@ -1,7 +1,12 @@
 define(["class/ImgPool","libs/EasyInput","config/box2dConfig","libs/Easy2DCamera","var/level","config/config","controllers/ColisionControler","controllers/EventsController"],function(ImgPool, Input, box2dConfig, Easy2DCamera, level , config,ColisionControler,EventsControler){
 
-    var currentLevel = 0;
-    var mylevel = level[currentLevel]();
+    var currentLevel =localStorage.currentLevel || 0 ;
+    if(level[currentLevel]!==undefined)
+      var mylevel = level[currentLevel]();
+    else{
+      window.localStorage.clear(); 
+      var mylevel = level[0]();
+    }
     var Game = function(){
       this.gestion=undefined;
       this.players=undefined;
@@ -23,6 +28,7 @@ define(["class/ImgPool","libs/EasyInput","config/box2dConfig","libs/Easy2DCamera
         this.gestion.eventControler = new EventsControler();
         this.gestion.colisionControler = new ColisionControler(this);
         this.gestion.box2dConfig = box2dConfig;
+        this.gestion.canvas = config.canvasObject;
         this.gestion.gameStatus = '';
 
       }

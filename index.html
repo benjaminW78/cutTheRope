@@ -14,6 +14,11 @@
 	
     </head>
 	<body onselectstart="return false">
+    <audio controls autoplay loop>
+        <source src="sources/songs/cuttherope.mp3"  type="audio/mpeg">
+        <source src="sources/songs/cuttherope.ogg"  type="audio/ogg">
+        Your browser does not support the audio tag.
+    </audio>
 		<canvas id="canvas" class="displayNone"></canvas>
 <!-- 		<div id="containerTearsGUI"><span id = 'counterTears'></span> Tears<div class="tear"></div></div>
 		<div id="gameOver">YOU LOOSE RETRY WITH F5</div>
@@ -22,9 +27,10 @@
             <div id="container">            
                 <p class="title fa fa-btc">itcut the Rope</p>
                 <p class="explication">Welcome to this little game made by 
-                <br><span class="name">Benjamin Winckell</span><br>
-                 in one little weekEnd Because #YOLO</p>
-                <button id="start" class="infinite animated pulse">Start <u><b>Mining</b></u></button>
+                <br><b> Benjamin Winckell</b><br></p>
+                <button id="start" class="buttonInit infinite animated pulse"><u><b>Start Game</b></u></button>
+                <button id="continue" class="buttonInit displayNone infinite animated pulse"><u><b>Next Level</b></u></button>
+                <button id="restart" class="buttonInit displayNone infinite animated pulse" style='color:black'><u><b>Restart Level</b></u></button>
             </div>
         </div>
         <div id="menu">
