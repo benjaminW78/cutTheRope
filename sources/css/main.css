@@ -8,15 +8,18 @@
 
 body 
 {
-	background-color : black;
+	background-color : rgba(255,255,255,0.5);
+	background-image: url("../images/decors/backgroundbody.jpg");
 }
 #canvas{
-	background-image: url("../images/decors/mine.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	/* display	: inline-block; */
+	background-image: url("../images/decors/candy-background.png");
+	background-repeat: repeat;
+	background-opacity : 0.90;
 	height	: 600px;
 	margin	: 0 auto;
+	-moz-box-shadow: 0 0 10px 10px #888;
+	-webkit-box-shadow: 0 0 10px 10px #888;
+	box-shadow: 0 0 10px 10px #888;
 	width	: 900px;
 }
 
@@ -71,13 +74,13 @@ body
 
 #notif{
 	background      : #E0C5DD;
-	background-image: url("../images/decors/wallbitcoin.jpg");
 	background-size :cover; 
 	border          : 1px rgb(252, 126, 126) solid;
 	border-radius   : 2rem;
 	font-family     : "font-awesome";
 	height          : 20rem;
 	/*left          : 15rem;*/
+	background-image: url("../images/decors/backgroundpopup.jpg");
 	left            : 30rem;
 	padding         : 1rem;
 	position        : absolute;
@@ -90,7 +93,7 @@ body
 	background-color: rgba(200,200,200,0.9);
 	border          : 1px rgb(255, 255, 255) solid;
 	border-radius   : 2rem;
-	padding         : 2rem;
+	padding         : 1.5rem;
 }
 .name{
 	font-weight: bold;
@@ -113,7 +116,7 @@ body
 
 .buttonInit{
 	background-color      : transparent;
-	background-image      : url('../images/decors/axebtn.png');
+	background-image      : url('../images/decors/lolipopaxe.png');
 	background-repeat     : no-repeat;
 	background-size       : contain;
 	border                : 0px;

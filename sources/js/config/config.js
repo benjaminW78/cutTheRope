@@ -8,12 +8,13 @@ var config = {
 
 	config.canvas.width  = config.canvasObject.width;
 	config.canvas.height = config.canvasObject.height;
-	config.imagesSrc = [{w:199,h:198,src:"sources/images/decors/coin.png"},
+	config.imagesSrc = [{w:96,h:91,src:"sources/images/decors/coin1.png"},
                         {w:256,h:256,src:"sources/images/decors/player.png"},
                         {w:411,h:399,src:"sources/images/decors/cutter.png"},
-                        {w:452,h:369,src:"sources/images/decors/grass.png"},
-                        {w:50,h:45,src:"sources/images/decors/rope1.png"},
-                        {w:141,h:117,src:"sources/images/decors/rock.png"}
+                        {w:42,h:24,src:"sources/images/decors/ground.png"},
+                        {w:12,h:29,src:"sources/images/decors/rope.png"},
+                        {w:42,h:42,src:"sources/images/decors/rock.png"},
+                        {w:30,h:22,src:"sources/images/decors/bad.png"}
                         ];
 
     return config;

@@ -43,7 +43,7 @@ define(["var/game","class/Carre","class/Circle","components/addMoveMethode","com
         params.y             = y;
         params.density       = 1.3;
         params.friction      = 1;
-        params.isStatic      = true;
+        params.isStatic      = params.isStatic||false;
         this.members.hand    = new Carre(params);
 
         params.density       = 1;

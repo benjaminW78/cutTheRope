@@ -112,26 +112,26 @@ function action2(e,Game)
 							mousemove : usedOnMouseMove
 						},
 			  65/*81*/ : {
-							keydown : switchMember
+							// keydown : switchMember
 						 },
 			  /* Defini la function appelé par chaque couple key/event */
 					69 : { 
-							keydown : action1
+							// keydown : action1
 						  },
 					82 : { 
-							keydown : action2
+							// keydown : action2
 						  },
 			  37/*65*/ : { 
-							keydown : playerMoveLeft,keyup : playerStopLeft
+							// keydown : playerMoveLeft,keyup : playerStopLeft
 						  },
 			  38/*32*/ : { 
-							keydown : playerMoveUp,keyup : playerStopUp
+							// keydown : playerMoveUp,keyup : playerStopUp
 						  },
 			  39/*68*/ : { 
-							keydown : playerMoveRight,keyup : playerStopRight
+							// keydown : playerMoveRight,keyup : playerStopRight
 						  },
 			  40/*83*/ : { 
-							keydown : playerMoveDown,keyup : playerStopDown
+							// keydown : playerMoveDown,keyup : playerStopDown
 						  },
 					// 87: {keydown: function(){console.log("Down");}, keyup: function(){console.log("Up");},keypress: function(){console.log("bite");}}
 				};

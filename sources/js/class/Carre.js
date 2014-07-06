@@ -59,7 +59,24 @@ define(['config/box2dConfig',"components/addDrawMethode","config/config"],functi
                             };
 
             if(this.characts.img!==undefined && this.characts.isPattern){
-                this.characts.pattern = config.context.createPattern(this.characts.img, 'repeat');
+
+                console.log(params.imgSrc)
+                var canvas            = document.createElement("canvas");
+                    canvas.width      = params.imgSrc.width*6;
+                    canvas.height     = params.imgSrc.height;
+                var ctx               = canvas.getContext("2d");
+                var repeatType        = "repeat";
+                var firstPattern      = ctx.createPattern(params.imgSrc,repeatType);
+                ctx.fillStyle         = firstPattern ;
+
+            
+                ctx.fillRect(0,0,canvas.width,canvas.height);
+                ctx.fill();
+
+                this.characts.img = canvas;
+                this.characts.imgWidth = canvas.width;
+                this.characts.imgHeight = canvas.height;
+                
             }
             // body settings
             this.bodyDef  =  new box2dConfig.b2BodyDef;
@@ -74,8 +91,9 @@ define(['config/box2dConfig',"components/addDrawMethode","config/config"],functi
             }
             else if(params.isStatic && params.elementType === 'player'){
                 this.bodyDef.type  = box2dConfig.b2Body.b2_staticBody;
-                // this.fixDef.filter.categoryBits = box2dConfig.FILTERS.MEMBERS;
-                // this.fixDef.filter.maskBits     = box2dConfig.FILTERS.GROUND;
+            }
+            else if(params.elementType === 'player'){
+                this.bodyDef.type  = box2dConfig.b2Body.b2_dynamicBody;
 
             }
             else{ 
