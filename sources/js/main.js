@@ -101,6 +101,8 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
             localStorage.currentLevel=1;
         } 
         pause = false;
+        notif.classList.remove("displayNone"); 
+        
         notif.classList.add("animated");
         notif.classList.add("bounceIn");
         
