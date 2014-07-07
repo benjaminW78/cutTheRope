@@ -43,8 +43,8 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
         })
 
     Game.gestion.input.addEvent("mousemove", window,Game);
-    Game.gestion.input.addEvent("keydown", window,Game);
-    Game.gestion.input.addEvent("keyup", window,Game);
+ /*   Game.gestion.input.addEvent("keydown", window,Game);
+    Game.gestion.input.addEvent("keyup", window,Game);*/
 
 	function disappear(){
         if(notif.classList.contains("bounceOut"))
@@ -67,13 +67,13 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
 	config.canvas.addEventListener('webkitAnimationEnd', removeAnimations);
 	
 	function removeAnimations(){
-        notif.classList.add("displayNone"); 
-        notif.classList.remove("animated");
+        config.canvas.classList.add("displayNone"); 
+        config.canvas.classList.remove("animated");
 
-        if(notif.classList.contains("shake"))
-            notif.classList.remove("shake");
-        if(notif.classList.contains("swing"))
-            notif.classList.remove("swing");
+        if(config.canvas.classList.contains("shake"))
+            config.canvas.classList.remove("shake");
+        if(config.canvas.classList.contains("swing"))
+            config.canvas.classList.remove("swing");
 	}
 	
 	Game.gestion.eventControler.add("start", function(){
@@ -101,8 +101,8 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
             localStorage.currentLevel=1;
         } 
         pause = false;
-        notif.className -= "displayNone"; 
-        notif.className +=" animated bounceIn"
+        notif.classList.add("animated");
+        notif.classList.add("bounceIn");
         
         config.canvas.classList.add("animated");
         config.canvas.classList.add("shake");
@@ -116,10 +116,14 @@ require(["var/game","class/Player","components/requestanimFrame","config/config"
 
 	Game.gestion.eventControler.add("gameOver", function(){
 		pause = false;
-		notif.className -= "displayNone"; 
-		notif.className +=" animated bounceIn";
+		notif.classList.remove("displayNone"); 
+        
+        notif.classList.add("animated");
+		notif.classList.add("bounceIn");
+
         config.canvas.classList.add("animated");
         config.canvas.classList.add("swing");
+
         document.getElementsByClassName("explication")[0].innerHTML="<b>GAME OVER</b> <br/> You loose at Level : "+(JSON.parse(localStorage.currentLevel)+1);
         btnRestart.classList.remove("displayNone");
         btnStart.classList.add("displayNone");
